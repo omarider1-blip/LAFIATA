@@ -66,60 +66,102 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:14px}
     </div>
     <div class="card"><h2>Comment ça marche ?</h2><p>1. Vous envoyez une demande. 2. Le médecin examine la disponibilité. 3. Le médecin confirme ou propose un autre créneau.</p></div>
   </section>
-
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087653">
+<title>LAFIATA — Rendez-vous médicaux</title>
+<style>
+:root{--green:#087653;--dark:#07543d;--mint:#eaf7f0;--line:#dce9e1;--ink:#17352a;--muted:#61766c;--red:#a52d2d}
+*{box-sizing:border-box}body{margin:0;background:#f5faf7;color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(120deg,#07543d,#0b8a61);color:white;padding:22px 16px 28px}.wrap{max-width:980px;margin:auto;padding:0 14px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;background:white;color:var(--green);display:grid;place-items:center;font-size:28px;font-weight:800}
+h1{font-size:1.45rem;margin:0}.tag{margin:3px 0 0;opacity:.9;font-size:.92rem}main{padding:18px 0 40px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+button,.tab{border:0;border-radius:12px;padding:11px 14px;font:inherit;font-weight:650;cursor:pointer}.tab{background:#e4eee8;color:var(--dark)}.tab.active,button.primary{background:var(--green);color:white}
+button.secondary{background:#e7f1eb;color:var(--dark)}button.danger{background:#fff0f0;color:var(--red)}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 5px 20px #0a543d08}
+h2{font-size:1.15rem;margin:0 0 12px}h3{font-size:1rem;margin:0 0 8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{display:block;font-size:.9rem;font-weight:650;margin-bottom:5px}input,select,textarea{width:100%;border:1px solid #cbdcd1;border-radius:11px;padding:11px 12px;font:inherit;background:white;color:var(--ink)}
+textarea{min-height:84px;resize:vertical}.field{margin-bottom:12px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}
+.small{font-size:.86rem;color:var(--muted)}.notice{padding:12px;border-radius:12px;background:#eef7f1;color:#285b45;font-size:.9rem}.warning{padding:12px;border-radius:12px;background:#fff5df;color:#704d00;font-size:.9rem}
+.list{display:grid;gap:10px}.appointment{border:1px solid var(--line);border-radius:14px;padding:13px}.meta{font-size:.88rem;color:var(--muted);margin:4px 0 10px}
+.status{display:inline-block;border-radius:99px;padding:4px 9px;font-size:.78rem;font-weight:750;background:#eee;color:#555}.status.en_attente{background:#fff0cf;color:#805500}.status.confirme{background:#dff6e8;color:#17643e}.status.refuse,.status.annule{background:#fde5e5;color:#9c2525}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actions button{font-size:.88rem;padding:8px 10px}.hidden{display:none!important}.dayrow{display:grid;grid-template-columns:90px 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:14px}@media(max-width:600px){.grid{grid-template-columns:1fr}.card{padding:15px}.dayrow{grid-template-columns:72px 1fr 1fr}.dayrow input{padding:9px 6px}.row{flex-direction:column;align-items:stretch}.tabs button{flex:1}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand"><div class="logo">✚</div><div><h1>LAFIATA</h1><p class="tag">Votre santé, notre priorité</p></div></div></div></header>
+<main class="wrap">
+  <div class="notice" style="margin-bottom:14px">Les demandes de rendez-vous sont envoyées à la base en ligne. Gardez précieusement le code de suivi affiché après l'envoi.</div>
+  <nav class="tabs" aria-label="Navigation">
+    <button class="tab active" data-tab="patient">Espace patient</button>
+    <button class="tab" data-tab="track">Suivre ma demande</button>
+    <button class="tab" data-tab="doctor">Espace médecin</button>
+    <button class="tab" data-tab="hours">Disponibilités</button>
+  </nav>
+  <section id="patient" class="panel">
+    <div class="card"><h2>Demander un rendez-vous</h2><p class="small">Votre demande reste en attente jusqu'à la décision du médecin. N'indiquez pas de détails médicaux sensibles dans la note.</p>
+      <form id="bookingForm"><div class="grid">
+        <div class="field"><label for="patientName">Nom et prénom *</label><input id="patientName" required maxlength="100" autocomplete="name"></div>
+        <div class="field"><label for="phone">Téléphone *</label><input id="phone" required maxlength="30" inputmode="tel" autocomplete="tel" placeholder="+227 ..."></div>
+        <div class="field"><label for="reason">Motif général *</label><select id="reason" required><option value="">Choisir…</option><option>Consultation générale</option><option>Suivi de traitement</option><option>Renouvellement d'ordonnance</option><option>Autre motif</option></select></div>
+        <div class="field"><label for="kind">Type de rendez-vous *</label><select id="kind" required><option value="Au cabinet">Au cabinet</option><option value="À distance (à organiser)">À distance (à organiser)</option></select></div>
+        <div class="field"><label for="date">Date souhaitée *</label><input id="date" type="date" required></div>
+        <div class="field"><label for="time">Heure souhaitée *</label><select id="time" required><option value="">Choisir une date d'abord</option></select></div>
+      </div><div class="field"><label for="note">Note facultative (sans détails médicaux sensibles)</label><textarea id="note" maxlength="250" placeholder="Ex. préférence horaire ou information pratique"></textarea></div>
+      <button class="primary" type="submit" id="bookingBtn">Envoyer ma demande</button></form><p id="bookingMessage" class="small" role="status"></p>
+    </div>
+    <div class="card"><h2>Comment ça marche ?</h2><p>1. Envoyez une demande. 2. Conservez le code de suivi. 3. Le médecin confirme ou refuse la demande. 4. Utilisez l'onglet « Suivre ma demande » pour consulter le statut.</p></div>
+  </section>
+  <section id="track" class="panel hidden"><div class="card"><h2>Suivre ma demande</h2><p class="small">Saisissez le même numéro de téléphone et le code reçu après l'envoi.</p>
+    <form id="trackForm"><div class="field"><label for="trackPhone">Téléphone</label><input id="trackPhone" required inputmode="tel" maxlength="30"></div><div class="field"><label for="trackCode">Code de suivi</label><input id="trackCode" required maxlength="40" autocomplete="off"></div><button class="primary" type="submit">Rechercher</button></form><div id="trackResult" class="list" style="margin-top:12px"></div>
+  </div></section>
   <section id="doctor" class="panel hidden">
-    <div class="card">
-      <h2>Espace médecin — rendez-vous</h2>
-      <div class="warning">Prototype local sans authentification : ne saisissez pas de vraies données de patients avant la mise en place d'un accès sécurisé et d'une base de données partagée.</div>
-      <div class="row" style="margin-top:12px"><button class="secondary" id="exportBtn" type="button">Exporter les demandes (CSV)</button><button class="secondary" id="clearBtn" type="button">Effacer les données de test</button></div>
-    </div>
-    <div class="card"><h2>Demandes reçues</h2><div id="appointments" class="list"></div></div>
+    <div class="card"><h2>Espace médecin</h2><div id="doctorLogin">
+      <p class="small">Connectez-vous avec l'adresse e-mail et le mot de passe du compte médecin créé dans Supabase Auth.</p>
+      <form id="loginForm"><div class="field"><label for="doctorEmail">E-mail du médecin</label><input id="doctorEmail" type="email" autocomplete="username" required></div><div class="field"><label for="doctorPassword">Mot de passe</label><input id="doctorPassword" type="password" autocomplete="current-password" required></div><button class="primary" type="submit">Se connecter</button></form>
+    </div><div id="doctorSession" class="hidden"><p id="doctorWho" class="small"></p><div class="row"><button class="secondary" id="refreshBtn" type="button">Actualiser les demandes</button><button class="secondary" id="logoutBtn" type="button">Se déconnecter</button><button class="secondary" id="exportBtn" type="button">Exporter CSV</button></div></div><p id="doctorMessage" class="small" role="status"></p></div>
+    <div class="card"><h2>Demandes reçues</h2><div id="appointments" class="list"><p class="small">Connectez-vous pour consulter les demandes.</p></div></div>
   </section>
-
-  <section id="hours" class="panel hidden">
-    <div class="card">
-      <h2>Mes disponibilités</h2>
-      <p class="small">Définissez les heures proposées aux patients. L'intervalle est de 30 minutes. Laissez les deux champs vides pour fermer une journée.</p>
-      <form id="hoursForm">
-        <div id="hoursRows"></div>
-        <button class="primary" type="submit">Enregistrer les horaires</button>
-        <span id="hoursMessage" class="small" role="status"></span>
-      </form>
-    </div>
-  </section>
-</main>
-<footer>LAFIATA · Démonstration de prise de rendez-vous</footer>
+  <section id="hours" class="panel hidden"><div class="card"><h2>Mes disponibilités</h2><p class="small">Ces horaires restent enregistrés dans ce navigateur uniquement. Ils ne sont pas encore partagés en ligne et ne bloquent pas automatiquement les créneaux entre plusieurs patients.</p><form id="hoursForm"><div id="hoursRows"></div><button class="primary" type="submit">Enregistrer les horaires</button> <span id="hoursMessage" class="small" role="status"></span></form></div></section>
+</main><footer>LAFIATA · Rendez-vous médicaux</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const DAYS = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
-const DEFAULT_HOURS = [
- {start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},
- {start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},{start:"09:00",end:"13:00"},{start:"",end:""}
-];
-const KEY_APPTS="lafiata_demo_appointments_v1", KEY_HOURS="lafiata_demo_hours_v1";
-let appointments = load(KEY_APPTS, []);
-let hours = load(KEY_HOURS, DEFAULT_HOURS);
-function load(k,fallback){try{const v=localStorage.getItem(k);return v?JSON.parse(v):JSON.parse(JSON.stringify(fallback))}catch(e){return JSON.parse(JSON.stringify(fallback))}}
-function save(){localStorage.setItem(KEY_APPTS,JSON.stringify(appointments))}
+const SUPABASE_URL="https://owucvxjgukshfpaalsrp.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93dWN2eGpndWtzaGZwYWFsc3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNzA4MTYsImV4cCI6MjEwODc0NjgxNn0.8KzgF7dkdWTQwdmynPaLo7XC7d6Xi5XSQn77VKGOIM8";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const DAYS=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+const DEFAULT_HOURS=[{start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},{start:"08:00",end:"17:00"},{start:"09:00",end:"13:00"},{start:"",end:""}];
+const KEY_HOURS="lafiata_demo_hours_v1";let hours=load(KEY_HOURS,DEFAULT_HOURS);let appointments=[];
+function load(k,f){try{let v=localStorage.getItem(k);return v?JSON.parse(v):JSON.parse(JSON.stringify(f))}catch(e){return JSON.parse(JSON.stringify(f))}}
 function saveHours(){localStorage.setItem(KEY_HOURS,JSON.stringify(hours))}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function dateISO(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-const dateInput=document.getElementById("date"); dateInput.min=dateISO(new Date()); dateInput.value=dateISO(new Date(Date.now()+86400000));
-document.querySelectorAll("[data-tab]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===btn));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("hidden",p.id!==btn.dataset.tab));if(btn.dataset.tab==="doctor")renderAppointments();if(btn.dataset.tab==="hours")renderHours()}));
-function dayIndex(iso){const d=new Date(iso+"T12:00:00").getDay();return (d+6)%7}
-function slotsFor(date){if(!date)return [];const h=hours[dayIndex(date)];if(!h||!h.start||!h.end||h.start>=h.end)return [];let out=[];let [sh,sm]=h.start.split(":").map(Number),[eh,em]=h.end.split(":").map(Number);let start=sh*60+sm,end=eh*60+em;for(let t=start;t+30<=end;t+=30){const value=String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");if(date===dateISO(new Date())&&t<=new Date().getHours()*60+new Date().getMinutes())continue;out.push(value)}return out}
-function renderSlots(){const date=dateInput.value,sel=document.getElementById("time"),old=sel.value;const slots=slotsFor(date);const occupied=appointments.filter(a=>a.date===date&&["pending","confirmed"].includes(a.status)).map(a=>a.time);sel.innerHTML='<option value="">Choisir un créneau…</option>'+slots.filter(s=>!occupied.includes(s)).map(s=>`<option value="${s}">${s}</option>`).join("");if(slots.length===0)sel.innerHTML='<option value="">Aucun créneau ce jour-là</option>';else if(old&&slots.includes(old)&&!occupied.includes(old))sel.value=old}
-dateInput.addEventListener("change",renderSlots); renderSlots();
-document.getElementById("bookingForm").addEventListener("submit",e=>{e.preventDefault();const date=dateInput.value,time=document.getElementById("time").value;if(!slotsFor(date).includes(time)){document.getElementById("bookingMessage").textContent="Ce créneau n'est pas disponible. Choisissez-en un autre.";return}if(appointments.some(a=>a.date===date&&a.time===time&&["pending","confirmed"].includes(a.status))){document.getElementById("bookingMessage").textContent="Ce créneau vient d'être pris. Choisissez-en un autre.";renderSlots();return}
-const a={id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),name:document.getElementById("patientName").value.trim(),phone:document.getElementById("phone").value.trim(),reason:document.getElementById("reason").value,kind:document.getElementById("kind").value,date,time,note:document.getElementById("note").value.trim(),status:"pending",createdAt:new Date().toISOString()};
-appointments.unshift(a);save();e.target.reset();dateInput.value=dateISO(new Date(Date.now()+86400000));renderSlots();document.getElementById("bookingMessage").textContent="Demande enregistrée sur cet appareil. Dans cette démo, le médecin doit ouvrir l'espace médecin sur ce même navigateur.";});
-function statusLabel(s){return {pending:"En attente",confirmed:"Confirmé",refused:"Refusé",cancelled:"Annulé"}[s]||s}
-function renderAppointments(){const el=document.getElementById("appointments");if(!appointments.length){el.innerHTML='<p class="small">Aucune demande pour le moment.</p>';return}el.innerHTML=appointments.map(a=>`<article class="appointment"><div class="row"><strong>${esc(a.name)}</strong><span class="status ${esc(a.status)}">${statusLabel(a.status)}</span></div><div class="meta">${esc(a.date)} à ${esc(a.time)} · ${esc(a.kind)}<br>Tél. : ${esc(a.phone)}<br>Motif : ${esc(a.reason)}${a.note?'<br>Note : '+esc(a.note):''}</div><div class="actions">${a.status==="pending"?`<button class="primary" onclick="setStatus('${a.id}','confirmed')">Confirmer</button><button class="danger" onclick="setStatus('${a.id}','refused')">Refuser</button>`:""}${["pending","confirmed"].includes(a.status)?`<button class="secondary" onclick="setStatus('${a.id}','cancelled')">Annuler</button>`:""}</div></article>`).join("")}
-window.setStatus=(id,status)=>{appointments=appointments.map(a=>a.id===id?{...a,status}:a);save();renderAppointments();renderSlots()};
-function renderHours(){const root=document.getElementById("hoursRows");root.innerHTML=hours.map((h,i)=>`<div class="dayrow"><strong>${DAYS[i]}</strong><input aria-label="${DAYS[i]} heure de début" type="time" id="start${i}" value="${esc(h.start)}"><input aria-label="${DAYS[i]} heure de fin" type="time" id="end${i}" value="${esc(h.end)}"></div>`).join("")}
-document.getElementById("hoursForm").addEventListener("submit",e=>{e.preventDefault();const next=hours.map((h,i)=>({start:document.getElementById("start"+i).value,end:document.getElementById("end"+i).value}));for(let i=0;i<next.length;i++){if((next[i].start&&!next[i].end)||(!next[i].start&&next[i].end)||(next[i].start&&next[i].start>=next[i].end)){document.getElementById("hoursMessage").textContent="Vérifiez les heures de début et de fin pour "+DAYS[i]+".";return}}hours=next;saveHours();renderSlots();document.getElementById("hoursMessage").textContent="Horaires enregistrés sur cet appareil."});
-document.getElementById("exportBtn").addEventListener("click",()=>{const cols=["name","phone","reason","kind","date","time","status","note"];const csv=[cols.join(","),...appointments.map(a=>cols.map(k=>'"'+String(a[k]??"").replace(/"/g,'""')+'"').join(","))].join("\r\n");const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="lafiata-demandes-demo.csv";link.click();URL.revokeObjectURL(url)});
-document.getElementById("clearBtn").addEventListener("click",()=>{if(confirm("Effacer toutes les demandes de démonstration sur cet appareil ?")){appointments=[];save();renderAppointments();renderSlots()}});
-renderHours();renderAppointments();
-</script>
-</body>
-</html>
+const dateInput=document.getElementById("date");dateInput.min=dateISO(new Date());dateInput.value=dateISO(new Date(Date.now()+86400000));
+document.querySelectorAll("[data-tab]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===btn));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("hidden",p.id!==btn.dataset.tab));if(btn.dataset.tab==="doctor")checkSession();if(btn.dataset.tab==="hours")renderHours()}));
+function dayIndex(iso){return (new Date(iso+"T12:00:00").getDay()+6)%7}
+function slotsFor(date){if(!date)return[];let h=hours[dayIndex(date)];if(!h||!h.start||!h.end||h.start>=h.end)return[];let out=[],[sh,sm]=h.start.split(":").map(Number),[eh,em]=h.end.split(":").map(Number),start=sh*60+sm,end=eh*60+em;for(let t=start;t+30<=end;t+=30){let v=String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");if(date===dateISO(new Date())&&t<=new Date().getHours()*60+new Date().getMinutes())continue;out.push(v)}return out}
+async function renderSlots(){const sel=document.getElementById("time"),date=dateInput.value;sel.innerHTML='<option value="">Chargement des créneaux…</option>';let slots=slotsFor(date);if(slots.length){const {data,error}=await sb.from("rendez_vous").select("heure_rdv").eq("date_rdv",date).in("statut",["en_attente","confirme"]);if(!error){let occupied=(data||[]).map(a=>String(a.heure_rdv).slice(0,5));slots=slots.filter(s=>!occupied.includes(s))}}sel.innerHTML='<option value="">Choisir un créneau…</option>'+slots.map(s=>`<option value="${s}">${s}</option>`).join("");if(!slots.length)sel.innerHTML='<option value="">Aucun créneau disponible</option>'}
+dateInput.addEventListener("change",renderSlots);renderSlots();
+function newCode(){const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let a=new Uint8Array(12);crypto.getRandomValues(a);return Array.from(a,x=>chars[x%chars.length]).join("")}
+document.getElementById("bookingForm").addEventListener("submit",async e=>{e.preventDefault();const msg=document.getElementById("bookingMessage"),btn=document.getElementById("bookingBtn");btn.disabled=true;msg.textContent="Envoi en cours…";const date=dateInput.value,time=document.getElementById("time").value;if(!slotsFor(date).includes(time)){msg.textContent="Choisissez une date et un créneau valide.";btn.disabled=false;return}
+const code=newCode(),phone=document.getElementById("phone").value.trim();const row={nom_patient:document.getElementById("patientName").value.trim(),telephone:phone,date_rdv:date,heure_rdv:time,motif:document.getElementById("reason").value,statut:"en_attente",type_rdv:document.getElementById("kind").value,note:document.getElementById("note").value.trim()||null,code_patient:code};
+const {error}=await sb.from("rendez_vous").insert(row);btn.disabled=false;if(error){msg.textContent="Impossible d'envoyer la demande : "+error.message;return}
+msg.innerHTML="Demande envoyée. <strong>Votre code de suivi : "+esc(code)+"</strong><br>Notez ou capturez ce code. Il sera nécessaire pour consulter le statut.";document.getElementById("trackPhone").value=phone;document.getElementById("trackCode").value=code;e.target.reset();dateInput.value=dateISO(new Date(Date.now()+86400000));renderSlots();});
+document.getElementById("trackForm").addEventListener("submit",async e=>{e.preventDefault();const root=document.getElementById("trackResult");root.innerHTML='<p class="small">Recherche en cours…</p>';const {data,error}=await sb.rpc("rechercher_mon_rendez_vous",{p_telephone:document.getElementById("trackPhone").value.trim(),p_code:document.getElementById("trackCode").value.trim().toUpperCase()});if(error){root.textContent="Erreur de recherche : "+error.message;return}if(!data||!data.length){root.innerHTML='<p class="small">Aucune demande trouvée. Vérifiez le téléphone et le code.</p>';return}root.innerHTML=data.map(a=>`<article class="appointment"><strong>${esc(a.date_rdv)} à ${esc(String(a.heure_rdv).slice(0,5))}</strong><p>Statut : <span class="status ${esc(a.statut)}">${labelStatus(a.statut)}</span></p><p class="small">Motif : ${esc(a.motif||"Non précisé")}</p></article>`).join("")});
+function labelStatus(s){return {en_attente:"En attente",confirme:"Confirmé",refuse:"Refusé",annule:"Annulé"}[s]||s}
+async function checkSession(){const {data}=await sb.auth.getSession();const logged=!!data.session;document.getElementById("doctorLogin").classList.toggle("hidden",logged);document.getElementById("doctorSession").classList.toggle("hidden",!logged);if(logged){document.getElementById("doctorWho").textContent="Connecté : "+data.session.user.email;await loadAppointments()}else{document.getElementById("appointments").innerHTML='<p class="small">Connectez-vous pour consulter les demandes.</p>'}}
+document.getElementById("loginForm").addEventListener("submit",async e=>{e.preventDefault();const m=document.getElementById("doctorMessage");m.textContent="Connexion…";const {error}=await sb.auth.signInWithPassword({email:document.getElementById("doctorEmail").value.trim(),password:document.getElementById("doctorPassword").value});if(error){m.textContent="Connexion impossible : "+error.message;return}m.textContent="Connexion réussie.";await checkSession()});
+document.getElementById("logoutBtn").addEventListener("click",async()=>{await sb.auth.signOut();await checkSession();document.getElementById("doctorMessage").textContent="Déconnecté."});
+document.getElementById("refreshBtn").addEventListener("click",loadAppointments);
+async function loadAppointments(){const el=document.getElementById("appointments");el.innerHTML='<p class="small">Chargement…</p>';const {data,error}=await sb.from("rendez_vous").select("*").order("created_at",{ascending:false});if(error){el.textContent="Erreur de chargement : "+error.message;return}appointments=data||[];renderAppointments()}
+function renderAppointments(){const el=document.getElementById("appointments");if(!appointments.length){el.innerHTML='<p class="small">Aucune demande pour le moment.</p>';return}el.innerHTML=appointments.map(a=>`<article class="appointment"><div class="row"><strong>${esc(a.nom_patient)}</strong><span class="status ${esc(a.statut)}">${labelStatus(a.statut)}</span></div><div class="meta">${esc(a.date_rdv)} à ${esc(String(a.heure_rdv).slice(0,5))} · ${esc(a.type_rdv||"")}<br>Tél. : ${esc(a.telephone)}<br>Motif : ${esc(a.motif||"")}${a.note?'<br>Note : '+esc(a.note):''}</div><div class="actions">${a.statut==="en_attente"?`<button class="primary" onclick="setStatus('${a.id}','confirme')">Confirmer</button><button class="danger" onclick="setStatus('${a.id}','refuse')">Refuser</button>`:""}${["en_attente","confirme"].includes(a.statut)?`<button class="secondary" onclick="setStatus('${a.id}','annule')">Annuler</button>`:""}</div></article>`).join("")}
+window.setStatus=async(id,statut)=>{const m=document.getElementById("doctorMessage");const {error}=await sb.from("rendez_vous").update({statut}).eq("id",id);if(error){m.textContent="Modification impossible : "+error.message;return}m.textContent="Statut mis à jour.";await loadAppointments();renderSlots()};
+function renderHours(){document.getElementById("hoursRows").innerHTML=hours.map((h,i)=>`<div class="dayrow"><strong>${DAYS[i]}</strong><input aria-label="${DAYS[i]} heure de début" type="time" id="start${i}" value="${esc(h.start)}"><input aria-label="${DAYS[i]} heure de fin" type="time" id="end${i}" value="${esc(h.end)}"></div>`).join("")}
+document.getElementById("hoursForm").addEventListener("submit",e=>{e.preventDefault();const next=hours.map((h,i)=>({start:document.getElementById("start"+i).value,end:document.getElementById("end"+i).value}));for(let i=0;i<next.length;i++){if((next[i].start&&!next[i].end)||(!next[i].start&&next[i].end)||(next[i].start&&next[i].start>=next[i].end)){document.getElementById("hoursMessage").textContent="Vérifiez les heures pour "+DAYS[i]+".";return}}hours=next;saveHours();renderSlots();document.getElementById("hoursMessage").textContent="Horaires enregistrés sur cet appareil."});
+document.getElementById("exportBtn").addEventListener("click",()=>{const cols=["nom_patient","telephone","date_rdv","heure_rdv","motif","statut","type_rdv","note"];const csv=[cols.join(","),...appointments.map(a=>cols.map(k=>'"'+String(a[k]??"").replace(/"/g,'""')+'"').join(","))].join("\r\n");const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="lafiata-demandes.csv";link.click();URL.revokeObjectURL(url)});
+renderHours();checkSession();
+</script></body></html>
